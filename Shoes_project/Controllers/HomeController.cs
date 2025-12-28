@@ -14,18 +14,20 @@ namespace Shoes_project.Controllers
             _context = context;
         }
 
-        // Dashboard
+        
         public IActionResult Index()
         {
-            // Redirect to login if not logged in
+            
             var accessLevel = HttpContext.Session.GetInt32("AccessLevel");
             if (accessLevel == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            // Pass access level to view
+            
             ViewBag.AccessLevel = accessLevel;
+
+            DateTime today = DateTime.Now;
 
             var model = new HomeViewModel
             {
@@ -35,26 +37,34 @@ namespace Shoes_project.Controllers
                 OrderCount = _context.Orders.Count(),
                 DeliveryCount = _context.Deliveries.Count(),
                 WarehouseCount = _context.Warehouses.Count(),
-                PromotionCount = _context.Promotions.Count()
+                PromotionCount = _context.Promotions.Count(),
+                WeeklySales = _context.Orders
+                  .Where(o => o.OrderDate >= today.AddDays(-7))
+                  .Sum(o => (decimal?)o.TotalAmount) ?? 0,
+
+                MonthlySales = _context.Orders
+                  .Where(o => o.OrderDate.Month == today.Month &&
+                   o.OrderDate.Year == today.Year)
+                  .Sum(o => (decimal?)o.TotalAmount) ?? 0
             };
 
             return View(model);
         }
 
-        // Privacy page
+        
         public IActionResult Privacy()
         {
             return View();
         }
 
-        // Optional: Error page
+        
         public IActionResult Error()
         {
             return View();
         }
     }
 
-    // Dashboard view model
+    
     public class HomeViewModel
     {
         public int EmployeeCount { get; set; }
@@ -64,5 +74,8 @@ namespace Shoes_project.Controllers
         public int DeliveryCount { get; set; }
         public int WarehouseCount { get; set; }
         public int PromotionCount { get; set; }
+        public decimal WeeklySales { get; set; }
+        public decimal MonthlySales { get; set; }
+
     }
 }

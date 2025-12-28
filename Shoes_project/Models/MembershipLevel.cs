@@ -8,14 +8,14 @@ namespace Shoes_project.Models
         public int MembershipLevelId { get; set; }
 
         [Required, StringLength(50)]
-        public string Name { get; set; } = string.Empty;   // Bronze, Silver, Gold
+        public string Name { get; set; } = string.Empty;   
 
         [Required]
-        public decimal DiscountPercentage { get; set; }   // e.g. 5, 10, 15
+        public decimal DiscountPercentage { get; set; }   
 
         [Required]
-        public decimal MinimumSpend { get; set; }          // eligibility
-
-        public string? Benefits { get; set; }              // description
+        public decimal MinimumSpend { get; set; }
+        [Required]
+        public string? Benefits { get; set; }             
     }
 }

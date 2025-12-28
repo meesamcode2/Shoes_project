@@ -31,9 +31,9 @@ namespace Shoes_project.Models
         public string Country { get; set; }
 
         [Required]
-        public string MembershipStatus { get; set; } // Gold, Silver, Bronze
+        public string MembershipStatus { get; set; } 
 
-        [Required, Column(TypeName = "decimal(18,2)")]
+        [Required]
         public decimal TotalSpend { get; set; }
 
         [Required, DataType(DataType.Date)]

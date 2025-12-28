@@ -29,8 +29,6 @@ namespace Shoes_project.Models
         public string Department { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Salary is Required")]
-        [Range(0, 1000000)]
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Salary { get; set; }
 
         [Required(ErrorMessage = "Hire Date is Required")]

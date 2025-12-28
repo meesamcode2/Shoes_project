@@ -15,20 +15,20 @@ namespace Shoes_project.Controllers
             _context = context;
         }
 
-        // GET: /Account/Login
+        
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
+        
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
-                // Save user info in session
+                
                 HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetInt32("AccessLevel", user.AccessLevel);
                 HttpContext.Session.SetString("Username", user.Username);
@@ -40,13 +40,13 @@ namespace Shoes_project.Controllers
             return View();
         }
 
-        // GET: /Account/Signup
+        
         public IActionResult Signup()
         {
             return View();
         }
 
-        // POST: /Account/Signup
+        
         [HttpPost]
         public IActionResult Signup(User user)
         {
@@ -65,7 +65,7 @@ namespace Shoes_project.Controllers
             return View();
         }
 
-        // POST: /Account/Logout
+        
         [HttpPost]
         public IActionResult Logout()
         {

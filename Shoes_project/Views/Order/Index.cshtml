@@ -28,7 +28,7 @@
                     <div class="card shadow-sm h-100">
                         <div class="card-header bg-primary text-white">
                             <h5 class="card-title mb-0">@o.CustomerName</h5>
-                            <small>@o.OrderDate.ToString("yyyy-MM-dd")</small>
+                            <small>@o.OrderDate.ToString("dd-MM-yyyy")</small>
                         </div>
                         <div class="card-body">
                             <p class="mb-1"><strong>Email:</strong> @o.CustomerEmail</p>
@@ -107,7 +107,7 @@
                         <div class="col-md-6"><input name="CustomerName" value="@o.CustomerName" class="form-control" required /></div>
                         <div class="col-md-6"><input name="CustomerEmail" value="@o.CustomerEmail" type="email" class="form-control" required /></div>
                         <div class="col-md-6"><input name="CustomerPhone" value="@o.CustomerPhone" class="form-control" required /></div>
-                        <div class="col-md-6"><input name="OrderDate" type="date" value="@o.OrderDate.ToString("yyyy-MM-dd")" class="form-control" required /></div>
+                        <div class="col-md-6"><input name="OrderDate" type="date" value="@o.OrderDate.ToString("dd-MM-yyyy")" class="form-control" required /></div>
                         <div class="col-md-6">
                             <select name="Status" class="form-control" required>
                                 <option selected>@o.Status</option>

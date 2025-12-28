@@ -23,7 +23,7 @@ namespace Shoes_project.Models
         public int Capacity { get; set; }
 
         public string? ManagerName { get; set; }
-
+        [Required]
         public string? ContactNumber { get; set; }
     }
 }

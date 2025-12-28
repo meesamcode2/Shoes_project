@@ -10,10 +10,10 @@ namespace Shoes_project.Models
         public int DeliveryId { get; set; }
 
         [Required]
-        public int OrderId { get; set; }  // Foreign key
+        public int OrderId { get; set; }  
 
         [ForeignKey("OrderId")]
-        public Order? Order { get; set; } // Navigation property nullable
+        public Order? Order { get; set; } 
 
         [Required]
         public string DeliveryStatus { get; set; } = "Pending";

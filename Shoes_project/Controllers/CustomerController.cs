@@ -17,7 +17,7 @@ namespace Shoes_project.Controllers
 
         public IActionResult Index()
         {
-            // Always pass a non-null list
+            
             var customers = _context.Customers.ToList() ?? new List<Customer>();
             return View(customers);
         }

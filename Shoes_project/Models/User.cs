@@ -18,6 +18,6 @@ namespace Shoes_project.Models
 
         [Required]
         [Range(0, 2)]
-        public int AccessLevel { get; set; } // 0 = Owner, 1 = Manager, 2 = Guest
+        public int AccessLevel { get; set; } 
     }
 }

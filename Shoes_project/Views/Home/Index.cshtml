@@ -9,8 +9,8 @@
 
     <div class="row">
 
-        <!-- Employees: Access Level 0 & 1 -->
-        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        
+        @if (ViewBag.AccessLevel == 0 )
         {
             <div class="col-md-4">
                 <a asp-controller="Employee" asp-action="Index" style="text-decoration:none;">
@@ -24,7 +24,7 @@
             </div>
         }
 
-        <!-- Orders: Access Level 0 & 1 -->
+        
         @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
         {
             <div class="col-md-4">
@@ -39,7 +39,7 @@
             </div>
         }
 
-        <!-- Products: Access Level 0, 1 & 2 -->
+        
         @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
         {
             <div class="col-md-4">
@@ -54,7 +54,7 @@
             </div>
         }
 
-        <!-- Customers: Access Level 0, 1 & 2 -->
+        
         @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
         {
             <div class="col-md-4">
@@ -69,8 +69,8 @@
             </div>
         }
 
-        <!-- Deliveries: Access Level 0 & 1 -->
-        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
         {
             <div class="col-md-4">
                 <a asp-controller="Delivery" asp-action="Index" style="text-decoration:none;">
@@ -82,9 +82,8 @@
                     </div>
                 </a>
             </div>
-        }
-
-        <!-- Warehouses: Access Level 0 & 1 -->
+        } 
+                
         @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
         {
             <div class="col-md-4">
@@ -99,8 +98,8 @@
             </div>
         }
 
-        <!-- Promotions: Access Level 0 & 1 -->
-        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
         {
             <div class="col-md-4">
                 <a asp-controller="Promotion" asp-action="Index" style="text-decoration:none;">
@@ -114,5 +113,33 @@
             </div>
         }
 
+        
+        @if (ViewBag.AccessLevel == 0 )
+        {
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3 dashboard-card">
+                    <div class="card-header">Weekly Sales</div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Rs @Model.WeeklySales
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3 dashboard-card">
+                    <div class="card-header">Monthly Sales</div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Rs @Model.MonthlySales
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        }
+
     </div>
+
 </div>
+

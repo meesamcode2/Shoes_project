@@ -21,10 +21,10 @@ namespace Shoes_project.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public string Status { get; set; } // Pending, Shipped, Delivered
-
+        public string Status { get; set; }
+        [Required]
         public string DeliveryAddress { get; set; }
-
+        [Required]
         public decimal TotalAmount { get; set; }
     }
 }
