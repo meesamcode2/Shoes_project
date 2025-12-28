@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Shoes_project.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Employee Dashboard</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-person-plus-fill"></i> Add Employee
+        </button>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-4">
+        <form asp-action="Search" method="post" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search by name or email..." />
+            <button class="btn btn-outline-primary"><i class="bi bi-search"></i> Search</button>
+        </form>
+    </div>
+
+    <!-- Employee Cards -->
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var emp in Model)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">@emp.Name</h5>
+                            <small>@emp.Title</small>
+                        </div>
+                        <div class="card-body">
+                            
+                            <p class="mb-1"><strong>Email:</strong> @emp.Email</p>
+                            <p class="mb-1"><strong>Contact:</strong> @emp.ContactNumber</p>
+                            <p class="mb-1"><strong>Dept:</strong> @emp.Department</p>
+                            <p class="mb-1"><strong>Salary:</strong> @emp.Salary.ToString("C")</p>
+                            <p class="mb-1"><strong>City:</strong> @emp.City</p>
+                            <p class="mb-1"><strong>Hire Date:</strong> @emp.HireDate.ToString("yyyy-MM-dd")</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-@emp.EmployeeId">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-@emp.EmployeeId">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">No employees found.</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="Insert" method="post">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> New Employee</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body row g-3">
+                    <div class="col-md-6"><label>Name</label><input type="text" name="Name" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Title</label><input type="text" name="Title" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Email</label><input type="email" name="Email" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Contact</label><input type="text" name="ContactNumber" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Department</label><input type="text" name="Department" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Salary</label><input type="number" step="0.01" name="Salary" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Hire Date</label><input type="date" name="HireDate" class="form-control" required /></div>
+                    <div class="col-md-6"><label>City</label><input type="text" name="City" class="form-control" required /></div>
+                    <div class="col-12"><label>Address</label><input type="text" name="Address" class="form-control" required /></div>
+                    <div class="col-12"><label>Emergency Contact</label><input type="text" name="EmergencyContact" class="form-control" required /></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success w-100"><i class="bi bi-save-fill"></i> Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT & DELETE MODALS -->
+@foreach (var emp in Model)
+{
+    <div class="modal fade" id="editModal-@emp.EmployeeId" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form asp-action="Update" method="post">
+                    <input type="hidden" name="id" value="@emp.EmployeeId" />
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Edit @emp.Name</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <div class="col-md-6"><label>Name</label><input type="text" name="Name" value="@emp.Name" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Title</label><input type="text" name="Title" value="@emp.Title" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Email</label><input type="email" name="Email" value="@emp.Email" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Contact</label><input type="text" name="ContactNumber" value="@emp.ContactNumber" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Department</label><input type="text" name="Department" value="@emp.Department" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Salary</label><input type="number" step="0.01" name="Salary" value="@emp.Salary" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Hire Date</label><input type="date" name="HireDate" value="@emp.HireDate.ToString("yyyy-MM-dd")" class="form-control" required /></div>
+                        <div class="col-md-6"><label>City</label><input type="text" name="City" value="@emp.City" class="form-control" required /></div>
+                        <div class="col-12"><label>Address</label><input type="text" name="Address" value="@emp.Address" class="form-control" required /></div>
+                        <div class="col-12"><label>Emergency Contact</label><input type="text" name="EmergencyContact" value="@emp.EmergencyContact" class="form-control" required /></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-check-circle"></i> Update Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal-@emp.EmployeeId" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="id" value="@emp.EmployeeId" />
+                    <h5 class="text-danger">Confirm Delete?</h5>
+                    <p>Removing <strong>@emp.Name</strong> is permanent.</p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

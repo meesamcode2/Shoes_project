@@ -1,0 +1,143 @@
+﻿@model IEnumerable<Shoes_project.Models.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Order Dashboard</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            Add Order
+        </button>
+    </div>
+
+    <!-- Search -->
+    <form asp-action="Search" method="post" class="d-flex mb-4">
+        <input type="text" name="search" class="form-control me-2" placeholder="Search by name or email" />
+        <button class="btn btn-outline-primary">Search</button>
+    </form>
+
+    <!-- Orders Cards -->
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var o in Model)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">@o.CustomerName</h5>
+                            <small>@o.OrderDate.ToString("yyyy-MM-dd")</small>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-1"><strong>Email:</strong> @o.CustomerEmail</p>
+                            <p class="mb-1"><strong>Phone:</strong> @o.CustomerPhone</p>
+                            <p class="mb-1"><strong>Status:</strong> @o.Status</p>
+                            <p class="mb-1"><strong>Delivery:</strong> @o.DeliveryAddress</p>
+                            <p class="mb-1"><strong>Total:</strong> Rs. @o.TotalAmount.ToString("N2")</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-@o.OrderId">
+                                Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-@o.OrderId">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">No orders found.</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="Insert" method="post">
+                <div class="modal-header bg-primary text-white">
+                    <h5>Add Order</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body row g-3">
+                    <div class="col-md-6"><input name="CustomerName" class="form-control" placeholder="Customer Name" required /></div>
+                    <div class="col-md-6"><input name="CustomerEmail" type="email" class="form-control" placeholder="Email" required /></div>
+                    <div class="col-md-6"><input name="CustomerPhone" class="form-control" placeholder="Phone" required /></div>
+                    <div class="col-md-6"><input name="OrderDate" type="date" class="form-control" required /></div>
+                    <div class="col-md-6">
+                        <select name="Status" class="form-control" required>
+                            <option>Pending</option>
+                            <option>Shipped</option>
+                            <option>Delivered</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><input name="DeliveryAddress" class="form-control" placeholder="Delivery Address" /></div>
+                    <div class="col-md-6"><input name="TotalAmount" type="number" step="0.01" class="form-control" placeholder="Total Amount" /></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary w-100">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT & DELETE MODALS -->
+@foreach (var o in Model)
+{
+    <!-- EDIT -->
+    <div class="modal fade" id="editModal-@o.OrderId" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form asp-action="Update" method="post">
+                    <input type="hidden" name="OrderId" value="@o.OrderId" />
+                    <div class="modal-header bg-warning">
+                        <h5>Edit Order</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <div class="col-md-6"><input name="CustomerName" value="@o.CustomerName" class="form-control" required /></div>
+                        <div class="col-md-6"><input name="CustomerEmail" value="@o.CustomerEmail" type="email" class="form-control" required /></div>
+                        <div class="col-md-6"><input name="CustomerPhone" value="@o.CustomerPhone" class="form-control" required /></div>
+                        <div class="col-md-6"><input name="OrderDate" type="date" value="@o.OrderDate.ToString("yyyy-MM-dd")" class="form-control" required /></div>
+                        <div class="col-md-6">
+                            <select name="Status" class="form-control" required>
+                                <option selected>@o.Status</option>
+                                <option>Pending</option>
+                                <option>Shipped</option>
+                                <option>Delivered</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6"><input name="DeliveryAddress" value="@o.DeliveryAddress" class="form-control" /></div>
+                        <div class="col-md-6"><input name="TotalAmount" type="number" step="0.01" value="@o.TotalAmount" class="form-control" /></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE -->
+    <div class="modal fade" id="deleteModal-@o.OrderId" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="id" value="@o.OrderId" />
+                    <h5 class="text-danger">Delete Order?</h5>
+                    <p>@o.CustomerName</p>
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}

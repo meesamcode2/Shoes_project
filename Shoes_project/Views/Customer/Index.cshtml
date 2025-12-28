@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Shoes_project.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Customer Dashboard</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-square-fill"></i> Add Customer
+        </button>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-4">
+        <form asp-action="Search" method="post" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search by name or email..." />
+            <button class="btn btn-outline-primary"><i class="bi bi-search"></i> Search</button>
+        </form>
+    </div>
+
+    <!-- Customer Cards -->
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var cust in Model)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">@cust.FullName</h5>
+                            <small>@cust.MembershipStatus</small>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-1"><strong>Email:</strong> @cust.Email</p>
+                            <p class="mb-1"><strong>Phone:</strong> @cust.PhoneNumber</p>
+                            <p class="mb-1"><strong>First Order:</strong> @cust.JoinDate.ToString("dd-MM--yyyy")</p>
+                            <p class="mb-1"><strong>City:</strong> @cust.City</p>
+                            <p class="mb-1"><strong>Postal Code:</strong> @cust.PostalCode</p>
+                            <p class="mb-1"><strong>Country:</strong> @cust.Country</p>
+                            <p class="mb-1"><strong>Total Spend:</strong> Rs. @cust.TotalSpend.ToString("N2")</p>
+                            
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-@cust.CustomerId">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-@cust.CustomerId">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">No customers found.</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="Insert" method="post">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><i class="bi bi-plus-square-fill"></i> New Customer</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body row g-3">
+                    <div class="col-md-6"><label>Full Name</label><input type="text" name="FullName" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Email</label><input type="email" name="Email" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Phone</label><input type="text" name="PhoneNumber" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Membership</label><input type="text" name="MembershipStatus" class="form-control" required /></div>
+                    <div class="col-md-6"><label>Total Spend</label><input type="number" step="0.01" name="TotalSpend" class="form-control" required /></div>
+                    <div class="col-md-6"><label>First Order</label><input type="date" name="JoinDate" class="form-control" required /></div>
+                    <div class="col-md-4"><label>City</label><input type="text" name="City" class="form-control" required /></div>
+                    <div class="col-md-4"><label>Postal Code</label><input type="text" name="PostalCode" class="form-control" required /></div>
+                    <div class="col-md-4"><label>Country</label><input type="text" name="Country" class="form-control" required /></div>
+                    <div class="col-12"><label>Address</label><input type="text" name="Address" class="form-control" required /></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info w-100"><i class="bi bi-save-fill"></i> Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT & DELETE MODALS -->
+@foreach (var cust in Model)
+{
+    <div class="modal fade" id="editModal-@cust.CustomerId" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form asp-action="Update" method="post">
+                    <input type="hidden" name="id" value="@cust.CustomerId" />
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Edit @cust.FullName</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <div class="col-md-6"><label>Full Name</label><input type="text" name="FullName" value="@cust.FullName" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Email</label><input type="email" name="Email" value="@cust.Email" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Phone</label><input type="text" name="PhoneNumber" value="@cust.PhoneNumber" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Membership</label><input type="text" name="MembershipStatus" value="@cust.MembershipStatus" class="form-control" required /></div>
+                        <div class="col-md-6"><label>Total Spend</label><input type="number" step="0.01" name="TotalSpend" value="@cust.TotalSpend" class="form-control" required /></div>
+                        <div class="col-md-6"><label> First Order</label><input type="date" name="JoinDate" value="@cust.JoinDate.ToString("yyyy-MM-dd")" class="form-control" required /></div>
+                        <div class="col-md-4"><label>City</label><input type="text" name="City" value="@cust.City" class="form-control" required /></div>
+                        <div class="col-md-4"><label>Postal Code</label><input type="text" name="PostalCode" value="@cust.PostalCode" class="form-control" required /></div>
+                        <div class="col-md-4"><label>Country</label><input type="text" name="Country" value="@cust.Country" class="form-control" required /></div>
+                        <div class="col-12"><label>Address</label><input type="text" name="Address" value="@cust.Address" class="form-control" required /></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-check-circle"></i> Update Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal-@cust.CustomerId" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="id" value="@cust.CustomerId" />
+                    <h5 class="text-danger">Confirm Delete?</h5>
+                    <p>Removing <strong>@cust.FullName</strong> is permanent.</p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

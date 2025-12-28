@@ -1,0 +1,118 @@
+﻿@model Shoes_project.Controllers.HomeViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+
+    <div class="row">
+
+        <!-- Employees: Access Level 0 & 1 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Employee" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-primary mb-3 dashboard-card">
+                        <div class="card-header">Employees</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Employees @Model.EmployeeCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Orders: Access Level 0 & 1 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Order" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-info mb-3 dashboard-card">
+                        <div class="card-header">Orders</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Orders @Model.OrderCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Products: Access Level 0, 1 & 2 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Product" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-success mb-3 dashboard-card">
+                        <div class="card-header">Products</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Products @Model.ProductCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Customers: Access Level 0, 1 & 2 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1 || ViewBag.AccessLevel == 2)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Customer" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-warning mb-3 dashboard-card">
+                        <div class="card-header">Customers</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Customers @Model.CustomerCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Deliveries: Access Level 0 & 1 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Delivery" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-secondary mb-3 dashboard-card">
+                        <div class="card-header">Deliveries</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Deliveries @Model.DeliveryCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Warehouses: Access Level 0 & 1 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Warehouse" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-dark mb-3 dashboard-card">
+                        <div class="card-header">Warehouses</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Warehouses @Model.WarehouseCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <!-- Promotions: Access Level 0 & 1 -->
+        @if (ViewBag.AccessLevel == 0 || ViewBag.AccessLevel == 1)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Promotion" asp-action="Index" style="text-decoration:none;">
+                    <div class="card text-white bg-danger mb-3 dashboard-card">
+                        <div class="card-header">Promotions</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Promotions @Model.PromotionCount</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
